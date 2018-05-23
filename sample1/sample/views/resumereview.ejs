@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>RESUMEREVIEW.HTML</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- ANGULAR UI GRID -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-touch.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-animate.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-sanitize.js"></script>
+    <script src="http://ui-grid.info/release/ui-grid-unstable.js"></script>
+    <link rel="stylesheet" href="http://ui-grid.info/release/ui-grid-unstable.css" type="text/css">
+</head>
+
+<body>
+
+<div class='container' ng-app='uigrid'>
+
+<br/><br/>
+
+<div class='jumbotron'>
+    <nav class="navbar">
+        <h3 class="navbar-text">Resume Review:</h3>
+        <a type="button" class="btn btn-primary navbar-btn navbar-right" href="/logout">Log Out</a>
+    </nav>
+</div>
+
+<div ng-controller="uigrid">
+    <div ui-grid="gridOptions" class="grid"></div>
+</div>
+
+<script>
+var app = angular.module('uigrid', ['ui.grid', 'ngSanitize']);
+app.controller('uigrid', ['$scope', '$log', '$http', function ($scope, $log, $http) {
+    $scope.gridOptions = {
+        enableSorting: true,
+        enableFiltering: true,
+        rowHeight: 40,
+    };
+    $scope.gridOptions.columnDefs = [
+            { 
+                field: 'firstName', 
+                displayName: 'First Name', 
+                cellTemplate: '<div class="ui-grid-cell-contents">{{COL_FIELD}}</div>',
+                width: 125,
+            },
+            { 
+                field: 'lastName', 
+                displayName: 'Last Name', 
+                cellTemplate: '<div class="ui-grid-cell-contents">{{COL_FIELD}}</div>',
+                width: 125
+            },
+            { 
+                field: 'email', 
+                displayName: 'Email', 
+            },
+            { 
+                field: 'position', 
+                displayName: 'Position',
+            },
+            { 
+                field: 'resumeLink', 
+                displayName: 'Resume Link', 
+                cellTemplate:'<div class="ui-grid-cell-contents"><a target="_blank" ng-href="/resumeRender/{{COL_FIELD}}">{{ COL_FIELD }}</a></div>',
+                enableSorting: false,
+                enableColumnMenu: false,
+                enableFiltering: false,
+                width: 200
+            },
+            { 
+                field: 'remove', 
+                displayName: 'Remove', 
+                cellTemplate:'<div class="ui-grid-cell-contents"><button ng-click="grid.appScope.remove(row.entity.id)">REMOVE</button></div>',
+                enableSorting: false,
+                enableColumnMenu: false,
+                enableFiltering: false,
+                width: 90
+            },
+        ];
+
+    
+    
+}]);
+</script>
+
+<style>
+.grid {
+    height: 60vh;      
+}
+</style>
+
+</body>
+
+</html>

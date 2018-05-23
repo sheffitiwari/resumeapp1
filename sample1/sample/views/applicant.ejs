@@ -1,0 +1,68 @@
+<html lang="en">
+
+<head>
+    <title>Job application</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <center>
+        <h1>
+            <center>Job Application</center>
+        </h1>
+        <h2>
+                <form name="jobapp" ng-submit="createApplicant(jobapp)" enctype="multipart/form-data">
+                    <label>First Name:</label>
+                    <input type="text" ng-model="person.firstname" name="firstname" />
+                    </br>
+                    <label>Last Name:</label>
+                    <input type="text" ng-model="person.lastname" name="lastname" />
+                    </br>
+                    <label>Email:</label>
+                    <input type="text" ng-model="person.email" name="email">
+                    </br>
+                    <label>Job position:</label>
+                    <select ng-model="person.job" ng-options="x for x in names" name="job">
+                    </select></br>
+                    <label for="person.resume">Upload your resume</label>
+                    <input ng-model="person.file" type="file" class="form-control-file" name="resume"></br></br>
+                    
+                    <input type="submit" ng-click="Submit">
+                </form>
+
+                </br>
+
+                <p>{{person}}</p>
+            </div>
+        </h2>
+    </center>
+</body>
+<!-- <script src="/models/applicant.js"> </script> -->
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', [`$scope`, `$http`, function ($scope, $http) {
+        
+        $scope.names = ["Developer", "Manager", "Intern"];
+        
+        $scope.person = {};
+
+        $scope.createApplicant = function (form) {
+            console.log($scope.person)
+            console.log(form)
+            
+            $http(
+                {
+
+                    method: `POST`,
+                    url: `/applicant/new`,
+                    data: {person: $scope.person, file: formdata}
+                }
+            )
+            .then(response => {
+                console.log(`success: ${response}`)
+            })
+        }
+    }]);
+</script>
+
+</html>

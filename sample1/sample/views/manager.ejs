@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+
+</head>
+
+<body ng-app="myApp" ng-controller="heyCtrl">
+    <h1>
+        <center>Login / Signup to the portal</center>
+    </h1>
+    <h2>Sign up</h2>
+    <form name="signup" ng-submit="createManager(signup)">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="text" class="form-control" ng-model="signup.email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" ng-model="signup.password" placeholder="Password">
+        </div>
+        <input type="submit" name="Submit">
+    </form>
+
+    <h2>Sign in</h2>
+    <form name="signin" ng-submit="checkManager(signin)">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="text" class="form-control" ng-model="signin.email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" ng-model="signin.password" placeholder="Password">
+        </div>
+        <input type="submit" name="Submit">
+    </form>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('heyCtrl', [`$scope`, `$http`, function ($scope, $http) {
+ 
+            $scope.signup = {};
+            $scope.createManager = function (form) {
+                console.log($scope.signup)
+                console.log(form)
+                $http(
+                    {
+
+                        method: `POST`,
+                        url: `/manager/signup`,
+                        data: { person: $scope.signup }
+                    }
+                )
+                    .then(response => {
+                        console.log(`success: ${response}`)
+                    })}
+
+                    $scope.signin = {};
+            $scope.checkManager = function (form) {
+                console.log($scope.signin)
+                console.log(form)
+                $http(
+                    {
+
+                        method: `GET`,
+                        url: `/manager/signin`,
+                        data: { person: $scope.signin }
+                    }
+                )
+                    .then(response => {
+                        console.log(`success: ${response}`)
+                    })}
+        }
+        ]);
+        
+    </script>
+
+
+
+
+
+</body>
+
+
+
+</html>
